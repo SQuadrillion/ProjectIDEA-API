@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :queues, only: [:index, :create]
     resources :songs, only: [:index]
+
+    get '/playing' => "queues#playing"
   end
 end
