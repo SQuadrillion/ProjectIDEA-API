@@ -3,6 +3,6 @@ class Api::SongsController < ApplicationController
   def index
     @songs = Song.all
 
-    render json: @songs
+    render json: SongSerializer.new(@songs).serialized_json, status: 200
   end
 end

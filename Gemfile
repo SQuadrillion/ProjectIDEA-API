@@ -45,4 +45,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'rails_12factor'
+gem 'redis'
 gem 'fast_jsonapi'
+gem 'mp3info'
