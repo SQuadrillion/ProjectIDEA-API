@@ -14,7 +14,8 @@ class Api::SongsController < ApplicationController
       "time": 0 # second
     }
 
-    open(params[:song][:music_url]) do |filename|
+    puts params
+    open(params[:music_url]) do |filename|
       Mp3Info.open(filename) do |metadata|
         info[:time] = metadata.length
         info[:song_name] = metadata.tag["title"]
@@ -23,7 +24,7 @@ class Api::SongsController < ApplicationController
     end
 
     [:time, :song_name, :artist_name].each do |symb|
-      params[:song][symb] = info[symb]
+      params[symb] = info[symb]
     end
 
     @song = Song.new(songs_param)
@@ -36,11 +37,11 @@ class Api::SongsController < ApplicationController
   end
 
   def destroy
-    
+
   end
 
   private
   def songs_param
-    params.require(:song).permit(:artwork_url, :music_url, :song_name, :artist_name, :time)
+    params.permit(:artwork_url, :music_url, :song_name, :artist_name, :time)
   end
 end
