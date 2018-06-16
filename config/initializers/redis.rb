@@ -1,5 +1,5 @@
-# if rails.env == "development"
+unless Rails.env.production?
   REDIS = Redis.new(host: "localhost", port: 6379)
-# else
-  # REDIS = Redis.new(host: "150.95.145.170", port: 6379)
-# end
+else
+  REDIS = Redis.new(url: ENV['REDIS_URL'])
+end
