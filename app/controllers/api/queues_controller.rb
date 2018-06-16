@@ -10,13 +10,22 @@ class Api::QueuesController < ApplicationController
     render json: data, status: 200
   end
 
-  # {"id"=>"1", "url"=>"http://amachamusic.chagasi.com/mp3/technophobia.mp3", "name"=>"shikugawa", "controller"=>"api/queues", "action"=>"create"}
+  # {"id"=>"1", "name"=>"shikugawa", "controller"=>"api/queues", "action"=>"create"}
   # POST /queues
   def create
+    @song = Song.find(params[:id])
+
     begin
       data = {
         "id": params[:id],
-        "url": params[:url],
+        "song": {
+          "song_name": @song.song_name,
+          "artist_name": @song.artist_name,
+          "artwork_url": @song.artwork_url,
+          "time": @song.time,
+          "music_url": @song.music_url
+        }
+        "url": @song.music_url,
         "name": params[:name]
       }.to_s
 
@@ -29,11 +38,23 @@ class Api::QueuesController < ApplicationController
   end
 
   def playing
-    playing_music_key = REDIS.keys.first
+    begin
+      playing_music_key = REDIS.keys.first
+      playing_music_data = REDIS.get(playing_music_key)
+    rescue Exception => e
+      data = {
+        "message": e.message
+      }
+
+      render json: data, status: 200
+    end
+
+    render json: playing_music_data, status: 200
   end
+
   private
     # Only allow a trusted parameter "white list" throug
     def queue_params
-      params.require(:queue).permit(:id, :url, :name)
+      params.require(:queue).permit(:id, :name)
     end
 end
