@@ -40,6 +40,24 @@ class Api::QueuesController < ApplicationController
     render json: { "result": "succeeded" }, status: 200
   end
 
+  def destroy
+    id = params[:id]
+    name = params[:name]
+
+    delete_key = REDIS.keys.select do |key|
+      data = JSON.parse(REDIS.get(key))
+      data["id"] == id && data["name"] == name
+    end
+
+    begin
+      REDIS.del(delete_key)
+    rescue Exception => e
+      render json: { "status": "failed", "message": e.message }, status: 400 and return
+    end
+
+    render json: { "status": "succeeded" }, status: 200
+  end
+
   def playing
     begin
       playing_music_key = REDIS.keys.last
