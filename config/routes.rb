@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
     resources :songs, only: [:index] do
       collection do
-        post 'new' => "songs#new"
+        post '/' => "songs#new"
       end
     end
 
