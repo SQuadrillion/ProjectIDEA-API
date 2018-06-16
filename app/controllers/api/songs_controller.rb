@@ -35,6 +35,10 @@ class Api::SongsController < ApplicationController
     end
   end
 
+  def destroy
+    
+  end
+
   private
   def songs_param
     params.require(:song).permit(:artwork_url, :music_url, :song_name, :artist_name, :time)
