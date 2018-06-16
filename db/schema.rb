@@ -16,7 +16,11 @@ ActiveRecord::Schema.define(version: 2018_06_16_090014) do
   enable_extension "plpgsql"
 
   create_table "songs", force: :cascade do |t|
-    t.string "url"
+    t.string "song_name"
+    t.string "artist_name"
+    t.string "artwork_url"
+    t.string "music_url"
+    t.integer "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

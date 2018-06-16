@@ -2,7 +2,7 @@ class Api::QueuesController < ApplicationController
   # GET /queues
   def index
     data = { "info": [] }
-    
+
     REDIS.keys.each do |key|
       data[:info] << REDIS.get(key)
     end
@@ -28,6 +28,9 @@ class Api::QueuesController < ApplicationController
     render json: { "result": "succeeded" }, status: 200
   end
 
+  def playing
+    playing_music_key = REDIS.keys.first
+  end
   private
     # Only allow a trusted parameter "white list" throug
     def queue_params
