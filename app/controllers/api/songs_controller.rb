@@ -14,7 +14,6 @@ class Api::SongsController < ApplicationController
       "time": 0 # second
     }
 
-    puts params
     open(params[:music_url]) do |filename|
       Mp3Info.open(filename) do |metadata|
         info[:time] = metadata.length
@@ -30,7 +29,7 @@ class Api::SongsController < ApplicationController
     @song = Song.new(songs_param)
 
     if @song.save
-      render json: SongSerializer.new(@song).serialized_json, status: 400
+      render json: @song, status: 200
     else
       render json: { "status": "failed" }, status: 400
     end
