@@ -3,5 +3,9 @@
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+[
+  { 'id': 1, 'url': 'http://amachamusic.chagasi.com/mp3/technophobia.mp3' },
+  { 'id': 2, 'url': 'http://amachamusic.chagasi.com/mp3/rokugatsunoamagasa.mp3' }
+].each do |data|
+  Song.create(id: data[:id], url: data[:url])
+end
