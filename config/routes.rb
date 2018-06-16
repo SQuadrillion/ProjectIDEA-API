@@ -6,7 +6,11 @@ Rails.application.routes.draw do
         get 'delete' => "queues#destroy"
       end
     end
-    resources :songs, only: [:index]
+    resources :songs, only: [:index] do
+      collection do
+        post 'new' => "songs#new"
+      end
+    end
 
     get '/playing' => "queues#playing"
   end
