@@ -3,9 +3,8 @@ class Api::QueuesController < ApplicationController
   def index
     data = []
 
-    d = REDIS.keys.sort_by do |a|
-      Time.parse(a)
-    end
+    d = sort(REDIS.keys)
+    d =
 
     d.reverse.each do |key|
       response = REDIS.get(key)
@@ -48,13 +47,15 @@ class Api::QueuesController < ApplicationController
     id = params[:id]
     name = params[:name]
 
-    delete_key = REDIS.keys.select do |key|
+    delete_key = sort(REDIS.keys).select do |key|
       data = JSON.parse(REDIS.get(key))
       data["id"] == id && data["name"] == name
     end
 
     begin
-      REDIS.del(delete_key[0])
+      REDIS.del(delete_key[
+        delete_key.length-1
+      ])
     rescue Exception => e
       render json: { "status": "failed", "message": e.message }, status: 400 and return
     end
@@ -81,5 +82,9 @@ class Api::QueuesController < ApplicationController
     # Only allow a trusted parameter "white list" throug
     def queue_params
       params.require(:queue).permit(:id, :name)
+    end
+
+    def sort keys
+      return keys.sort_by{ |a| Time.parse(a) }
     end
 end
