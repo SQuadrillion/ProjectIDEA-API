@@ -2,9 +2,7 @@ class Api::QueuesController < ApplicationController
   # GET /queues
   def index
     data = []
-
     d = sort(REDIS.keys)
-    d =
 
     d.reverse.each do |key|
       response = REDIS.get(key)

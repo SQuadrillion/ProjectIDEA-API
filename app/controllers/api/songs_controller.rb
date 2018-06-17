@@ -36,7 +36,15 @@ class Api::SongsController < ApplicationController
   end
 
   def destroy
+    @song = Song.find(params[:id])
 
+    begin
+      @song.delete()
+    rescue Exception => e
+      render json: { "status": "failed", "message": e.message }, status: 400 and return
+    end
+
+    render json: { "status": "succeeded" }, status: 200
   end
 
   private

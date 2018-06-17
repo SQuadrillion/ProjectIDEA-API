@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :songs, only: [:index] do
       collection do
         post '/' => "songs#new"
+        post 'delete' => "songs#destroy"
       end
     end
 
