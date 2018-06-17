@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :queues, only: [:index, :create] do
       collection do
-        get 'delete' => "queues#destroy"
+        post 'delete' => "queues#destroy"
       end
     end
     resources :songs, only: [:index] do

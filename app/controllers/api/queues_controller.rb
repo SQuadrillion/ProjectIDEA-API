@@ -3,7 +3,11 @@ class Api::QueuesController < ApplicationController
   def index
     data = []
 
-    REDIS.keys.each do |key|
+    d = REDIS.keys.sort_by do |a|
+      Time.parse(a)
+    end
+
+    d.reverse.each do |key|
       response = REDIS.get(key)
       json_response = JSON.parse(response)
 
@@ -50,7 +54,7 @@ class Api::QueuesController < ApplicationController
     end
 
     begin
-      REDIS.del(delete_key)
+      REDIS.del(delete_key[0])
     rescue Exception => e
       render json: { "status": "failed", "message": e.message }, status: 400 and return
     end
