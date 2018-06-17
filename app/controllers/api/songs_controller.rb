@@ -17,7 +17,14 @@ class Api::SongsController < ApplicationController
     open(params[:music_url]) do |filename|
       Mp3Info.open(filename) do |metadata|
         info[:time] = metadata.length
-        info[:song_name] = metadata.tag["title"]
+
+        if metadata.tag["title"].nil?
+          title = params[:music_url].split('/')
+          info[:song_name] = title[-1].split('.')[0]
+        else
+          info[:song_name] = metadata.tag["title"]
+        end
+
         info[:artist_name] = metadata.tag["artist"]
       end
     end

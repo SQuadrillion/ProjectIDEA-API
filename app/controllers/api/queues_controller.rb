@@ -19,6 +19,10 @@ class Api::QueuesController < ApplicationController
   def create
     @song = Song.find(params[:id])
 
+    if @song.song_name.nil?
+      url_splited = @song.music_url
+      @song.song_name = ""
+    end
     begin
       data = {
         "id": params[:id],
